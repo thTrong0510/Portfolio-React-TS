@@ -448,6 +448,20 @@ sau khi định nghĩa thì sẽ fix được 1 lỗi ở header.tsx
 
 Mục tiêu: import sử dụng absolute path
 
+cần phải hiểu cộng cụ đang dùng ở đây là Vite -> cấu hình thông thường nếu code NextJs với backend thì chỉ cần cấu hình lại file tsconfig.js nhưng đối với Vite có 2 file cấu hình là tsconfig.app.json vs tsconfig.node.json đối với phần path hiện tại thì t code với React các component -> cấu hình tsconfig.app.json + đối với TS vite cần cấu hình thêm ở ts vite.config.ts
+
+đối với những dự án cũ cấu hình tại 2 nơi 
+ở vite.config.ts: dùngg alias cấu hình đường dẫn cố định vào đây
+	export default defineConfig({
+	    resolve: {
+       	    alias: { '@': path.resolve(__dirname, './src') },
+	    },
+	    plugins: [react()],
+	});
+khi khai báo như này -> cần khai báo giống như thế ở tsconfig.app.json 
+
+hiện tại thì dùng package vite-tsconfig-paths giúp ko cần config resolve.alias nữa cách cài đặt package ở dưới dùng npm
+
 Bước 1: cấu hình Vite
 npm i --save-exact --save-dev vite-tsconfig-paths@5.0.1
 
@@ -460,6 +474,29 @@ Bước 2: khai báo Typescript baseUrl và path
 Về typescript path: https://www.typescriptlang.org/tsconfig/#paths
 
 Bước 3: test import
+
+sau khi cài đặt cấu hình vite.config.ts:
+	import tsconfigPaths from 'vite-tsconfig-paths'
+	export default defineConfig({
+	  plugins: [react(), tsconfigPaths()],
+	  server: {
+	    port: 3000,
+	  },
+	})
+done cấu hình react vite
+
+cuối cùng nói với typescript cấu hình những tham số gì qua cấu hình tsconfig.app.json
+"baseUrl": "." //ứng với root 
+"paths": {
+      "@/*": ["./src/*"],
+      "assets/*": ["./src/assets/*"],
+      "components/*": ["./src/components/*"],
+      "helpers/*": ["./src/helpers/*"],
+      "styles/*": ["./src/styles/*"],
+    }
+
+done sau đó tiến hành chỉnh lại các path
+bây h khi khai báo như: import { APP_DATA } from 'helpers/data'; thì nó sẽ chạy vào file tsconfig.app.json nó sẽ tìm helpers/ còn data là nối vào * 
 
 ##V - Hoàn thiện HomePage Screen##
 
