@@ -7,7 +7,12 @@ import { APP_DATA } from 'helpers/data';
 import { MdFileDownload } from "react-icons/md";
 import { AiFillFire } from "react-icons/ai";
 
-const HeroLeft = () => {
+interface IProps {
+    scrollToExperienceSection: () => void;
+    redirectToMyCV: () => void;
+}
+
+const HeroLeft = (props: IProps) => {
 
     const { t } = useTranslation();
 
@@ -49,6 +54,7 @@ const HeroLeft = () => {
             </div>
             <div className="d-md-flex d-none gap-4">
                 <ResizeButton
+                    onClick={props.scrollToExperienceSection}
                     btnText={t("heroSection.exp")}
                     btnIcons={<AiFillFire style={{ color: "orange" }} />}
                     btnStyle={{
@@ -58,6 +64,7 @@ const HeroLeft = () => {
                     }}
                 />
                 <ResizeButton
+                    onClick={props.redirectToMyCV}
                     btnText={t("heroSection.cv")}
                     btnIcons={<MdFileDownload />}
                 />

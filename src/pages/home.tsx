@@ -1,17 +1,31 @@
 import { Col, Container, Row } from "react-bootstrap";
-import HeroLeft from "../components/sections/hero/hero.left";
-import HeroRight from "../components/sections/hero/hero.right";
+import HeroLeft from "components/sections/hero/hero.left";
+import HeroRight from "components/sections/hero/hero.right";
 import { MdFileDownload } from "react-icons/md";
-import bg from '../assets/section.svg';
-import Introduction from "../components/sections/introduction";
-import ResizeButton from "../components/sections/resize.button";
+import bg from 'assets/section.svg';
+import Introduction from "components/sections/introduction";
+import ResizeButton from "components/sections/resize.button";
 import { useTranslation } from "react-i18next";
-import Divider from "../components/sections/divider";
-import Experience from "../components/sections/experience";
-import Skill from "../components/sections/skill";
+import Divider from "components/sections/divider";
+import Experience from "components/sections/experience";
+import Skill from "components/sections/skill";
+import { useRef } from "react";
+import { Navigate } from "react-router-dom";
 
 const HomePage = () => {
     const { t } = useTranslation();
+
+    const expRef = useRef<HTMLElement>(null);
+
+    const scrollToExperienceSection = () => {
+        expRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    const redirectToMyCV = () => {
+        // "https://www.overleaf.com/read/jdvzvggyvwbn#f6f420");
+        const newWindow = window.open("https://www.overleaf.com/project/67fc9f3a648a7604f3e9bff5", '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+    }
 
     return (
         <div className="homepage-screen">
@@ -31,7 +45,7 @@ const HomePage = () => {
                 >
                     <Row>
                         <Col className="d-none d-md-block" md={6}>
-                            <HeroLeft />
+                            <HeroLeft scrollToExperienceSection={scrollToExperienceSection} redirectToMyCV={redirectToMyCV} />
                         </Col>
                         <Col md={6}>
                             <HeroRight />
@@ -51,7 +65,7 @@ const HomePage = () => {
                 </Container>
             </section>
             <Divider />
-            <section>
+            <section ref={expRef}>
                 <Container>
                     <Experience />
                 </Container>

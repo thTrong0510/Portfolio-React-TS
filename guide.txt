@@ -502,14 +502,38 @@ bây h khi khai báo như: import { APP_DATA } from 'helpers/data'; thì nó s�
 
 https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
 
-//bổ sung file vite-env.d.ts
+trong dự án React Vite thì có file vite-env.d.ts để hỗ trợ code TS cho Vite 
+//bổ sung file vite-env.d.ts 
 
 /// <reference types="vite/client" />
 
+Tiếp tục hoàn thiện Home page
+- Component Introduction 
+	đơn giản là đổi tên file lại tsx
+	Hiệu ứng khi hover vào avatar bên phải introduction từ thư viện 'react-parallax-tilt' import tag 'Tilt' sử dụng đơn giản là bọc cái ảnh của mìh bởi tag này
+
+- Component experience:
+	hiệu ứng hover lên những cái thẻ ở experience là từ tag GlowCard
+	lỗi ở experience.duration[i18n.resolvedLanguage] ở đây typescript chỉ cho phép truyền vào là string 'vi' hoặc 'en' 
+
+	hình ảnh động chiếc laptop bên trái là 1 hình ảnh .svg tạo thông qua component dùng 'Lottie' from "lottie-react" cần chuẩn bị các file json (đối với dự án này thì trong assets/lottie/...json) -> bỏ vào thư viện này nó sẽ tự động convert qua 
+
+- Component Skill:
+	hiệu ứng các skill tự chạy + khi hover đứng lại blabla thì từ thư viện Marquee của 'react-fast-marquee'
+
+
 ##VI - React Context với TypeScript##
+xử lý dark/light theme -> tại sao pải dùg react context ở đây thì nếu mình thay đổi thì all pages/components sẽ thay đổi theo -> ko thể để cho state của react quản lý được mà nên để cho thằng cha qản lý
+
+cụ thể thì dùng data-bs-theme của bootstrap + lưu loại dark/light vào localstorage -> mỗi lần reload lại website nó ko bị mất, đồng thời muốn sử dụng light và dark của bootstrap thì phải sử dụng những component của nó 
+	đối với dự án này thì <html/> và <nav/> là 2 cái có sẵn bootstrap cũng có -> nó tự set khi thêm attr data-bs-theme vào còn lại những components khác thì ko có cần -> tự viết css global và sử dụng qua file định nghĩa màu light và dark variable.scss
+
+nơi dùng context là main.tsx
+	<AppContextProvider>
+	      <RouterProvider router={router} />
+	</AppContextProvider>
 
 Tài liệu: https://react.dev/reference/react/createContext#creating-context
-
 JSX children props: https://react.dev/learn/passing-props-to-a-component#passing-jsx-as-children
 
 Sử dụng với Context với typescript:
@@ -518,6 +542,8 @@ https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/conte
 ##VII - useRef với TypeScript##
 
 Miêu tiêu: làm tính năng auto-scroll tới section mong muốn
+
+nếu như làm thông thường với thẻ <a/> + id của 1 thẻ khác thì browser nó sẽ tự động cuộn cho chúg ta nhưng đối với react thì ko tương tác với id vì với tư duy component nếu có id trong đó khi nhân bảng nó lên -> sai
 
 https://stackoverflow.com/a/52528619
 
